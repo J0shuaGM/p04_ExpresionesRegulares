@@ -21,8 +21,12 @@
 
 #include "tools.h"
 #include "almacenamiento.h"
+#include "lectura.h"
 
 int main(int argc, char * argv[]) {
   Usage(argc, argv);
+  std::string fichero_entrada = argv[1];
+  std::string fichero_salida = argv[2];
+  lectura(fichero_entrada);
   return 0;
 }

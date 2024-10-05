@@ -32,17 +32,24 @@ class Almacenamiento {
     ~Almacenamiento() {}
 
     //Metodos
-    void Setvariables();
-    void SetBucles();
-    void SetMain();
-    void SetComentarios();
+    void setVariables(std::string, int);
+    void setBucles(std::string, int);
+    void setMain(bool, int);
+    void setComentarios(std::string, int);
+
+    //sobrecarga de operadores
+    friend std::ostream& operator<<(std::ostream& salida, const Almacenamiento almacen);
 
   private:
     std::vector<std::string> variables_;
+    std::vector<int> linea_variables_;
     std::vector<std::string> bucles_;
+    std::vector<int> linea_bucles_;
     bool main_;
-    std::string comentarios_;
-}
+    int linea_main_;
+    std::vector<std::string> comentarios_;
+    std::vector<int> linea_comentarios_;
+};
 
 
 #endif

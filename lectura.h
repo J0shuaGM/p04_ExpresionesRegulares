@@ -23,4 +23,5 @@
 
 #include "almacenamiento.h"
 
-void Lectura(std::string fichero_entrada);
+void lectura(std::string fichero_entrada);
+void escritura(std::string fichero_salida, Almacenamiento almacen);
