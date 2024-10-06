@@ -18,6 +18,8 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <algorithm>
 
 #include "almacenamiento.h"
 
@@ -37,9 +39,8 @@ void Almacenamiento::setBucles(std::string bucle, int numero_linea) {
 
 
 
-void Almacenamiento::setMain(bool main, int numero_linea) {
+void Almacenamiento::setMain(bool main) {
   main_ = main;
-  linea_main_ = numero_linea;
 }
 
 
@@ -53,23 +54,33 @@ void Almacenamiento::setComentarios(std::string comentario, int numero_linea) {
 
 std::ostream& operator<<(std::ostream& salida, Almacenamiento almacen) {
   salida << "DESCRIPTION: \n";
-  salida << almacen.comentarios_[0];
+  salida << almacen.comentarios_[0] << std::endl;;
   salida << "VARIABLES: \n";
-  for(auto i = 0; i <= almacen.variables_.size(); ++i) {
-    salida << "[Line " << almacen.linea_variables_[i] << "]" << almacen.variables_[i] << "\n";
+  for(auto i = 0; i < almacen.variables_.size(); ++i) {
+    salida << "[Line " << almacen.linea_variables_[i] << "] ";
+    std::istringstream stream(almacen.variables_[i]);
+    std::string tipo, nombre, declaracion;
+    stream >> tipo >> nombre; 
+    std::getline(stream, declaracion);
+    if (!declaracion.empty() && declaracion.back() == ';') declaracion.pop_back();
+    std::transform(tipo.begin(), tipo.end(), tipo.begin(), ::toupper);
+    salida << tipo << ": " << nombre << declaracion << std::endl;
   }
+  salida << std::endl;
   salida << "STATEMENTS: \n";
-  for(auto i = 0; i <= almacen.bucles_.size(); ++i) {
-    salida << "[Line " << almacen.linea_bucles_[i] << "]" << almacen.bucles_[i] << "\n";
+  for(auto i = 0; i < almacen.bucles_.size(); ++i) {
+    salida << "[Line " << almacen.linea_bucles_[i] << "] LOOP: " << almacen.bucles_[i] << "\n";
   }
+  salida << std::endl;
   salida << "MAIN: \n";
   if(almacen.main_ == true) {
     salida << "TRUE \n";
   } else {
     salida << "FALSE \n";
   }
+  salida << std::endl;
   salida << "COMMENTS: \n";
-  for(auto i = 0; i <= almacen.linea_comentarios_.size(); ++i) {
+  for(auto i = 0; i < almacen.linea_comentarios_.size(); ++i) {
     if (i == 0) {
       salida << "[Line 1-" << almacen.linea_comentarios_[i] << "] DESCRIPTION \n";
     } else {

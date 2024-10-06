@@ -34,7 +34,7 @@ class Almacenamiento {
     //Metodos
     void setVariables(std::string, int);
     void setBucles(std::string, int);
-    void setMain(bool, int);
+    void setMain(bool);
     void setComentarios(std::string, int);
 
     //sobrecarga de operadores
@@ -45,8 +45,7 @@ class Almacenamiento {
     std::vector<int> linea_variables_;
     std::vector<std::string> bucles_;
     std::vector<int> linea_bucles_;
-    bool main_;
-    int linea_main_;
+    bool main_{false};
     std::vector<std::string> comentarios_;
     std::vector<int> linea_comentarios_;
 };

@@ -23,7 +23,7 @@
 #include "lectura.h"
 #include "almacenamiento.h"
 
-void lectura(std::string fichero_entrada) {
+void lectura(std::string fichero_entrada, std::string fichero_salida) {
 
   std::ifstream input(fichero_entrada);
 
@@ -41,42 +41,52 @@ void lectura(std::string fichero_entrada) {
   std::regex inicio_comentario("/\\*");  // Detectar el inicio de comentario
   std::regex fin_comentario("\\*/");     // Detectar el fin del comentario
   std::regex comentario_simple("//.+"); // Detectar comentarios de una linea
-  std::regex variables("\\s*(int|double)\\s+[a-zA-Z_][a-zA-Z0-9_]*\\s*"); 
-  std::regex bucles("for|while"); 
+  std::regex variables("\\s+int|double\\s+[a-z0-9]+\\s*;"); 
+  std::regex buclesfor("\\bfor\\s*\\(.*\\)"); 
+  std::regex bucleswhile("\\bwhile\\s*\\(.*\\)");
   std::regex main("int main");
 
   std::smatch coincidencias;
   Almacenamiento almacen;
 
   while(std::getline(input, linea)) {
+    ++contador;
+
     //Busqueda de comentarios multilinea
     if(dentro_de_comentario) {
       comentarios_encontrados += linea + "\n";
-      ++contador;
       if(std::regex_search(linea, fin_comentario)) {
         dentro_de_comentario = false; 
         almacen.setComentarios(comentarios_encontrados, contador);
       }
     }
+    else {
+      //Busqueda de comentarios simples
+      if(std::regex_search(linea, comentario_simple)) {
+        almacen.setComentarios(linea, contador);
+      }
+    }
     if (std::regex_search(linea, inicio_comentario)) {
       dentro_de_comentario = true;
       comentarios_encontrados = linea + "\n";
-    }
-    //Busqueda de variables
-    if (std::regex_search(linea, coincidencias, variables)) {
-      ++contador; 
+    } else if (std::regex_search(linea, variables)) { //Busqueda de variables 
       almacen.setVariables(linea, contador);
-    }
-    //Busqueda de bucles
-    if (std::regex_search(linea, coincidencias, bucles)) {
-      ++contador; 
-      almacen.setBucles(linea, contador);
-    }
-    //Busqueda del main
-    if (std::regex_search(linea, coincidencias, main)) {
-      ++contador; 
-      almacen.setMain(true, contador);
-    }
+    } else if (std::regex_search(linea, coincidencias, buclesfor)) {  //Busqueda de bucles for
+      almacen.setBucles("for", contador);
+    } else if (std::regex_search(linea, coincidencias, bucleswhile)) { //Busqueda de bucles while
+      almacen.setBucles("while", contador);
+    } else if (std::regex_search(linea, coincidencias, main)) { //Busqueda de funcion main
+      almacen.setMain(true);
+    } 
   }
-  std::cout << almacen << std::endl;
+  escritura(fichero_salida, almacen);
+}
+
+void escritura(std::string ficher_salida, Almacenamiento almacen) {
+  std::ofstream out(ficher_salida); 
+  if (!out.is_open()) {
+    std::cerr << "El fichero de salida no se ha podido abrir" << std::endl;
+    exit(EXIT_FAILURE);
+  } 
+  out << almacen;
 }

@@ -27,6 +27,6 @@ int main(int argc, char * argv[]) {
   Usage(argc, argv);
   std::string fichero_entrada = argv[1];
   std::string fichero_salida = argv[2];
-  lectura(fichero_entrada);
+  lectura(fichero_entrada, fichero_salida);
   return 0;
 }
