@@ -21,7 +21,7 @@
 
 #include "tools.h"
 #include "almacenamiento.h"
-#include "lectura.h"
+#include "lectura_escritura.h"
 
 int main(int argc, char * argv[]) {
   Usage(argc, argv);

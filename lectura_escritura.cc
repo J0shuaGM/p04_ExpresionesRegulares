@@ -20,7 +20,7 @@
 #include <fstream>
 #include <regex>
 
-#include "lectura.h"
+#include "lectura_escritura.h"
 #include "almacenamiento.h"
 
 void lectura(std::string fichero_entrada, std::string fichero_salida) {
