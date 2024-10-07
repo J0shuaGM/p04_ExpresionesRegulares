@@ -24,6 +24,17 @@
 #include "almacenamiento.h"
 
 
+
+/**
+ * @brief Metoodo que almacena el nombre del fichero
+ * @param nombre_fichero Nombre del fichero
+*/
+void Almacenamiento::setNombre(std::string nombre_fichero) {
+  nombre_fichero_ = nombre_fichero;
+}
+
+
+
 /**
  * @brief Metoodo que almacena las diferentes variables del fichero
  * @param variables Cadena que recibe la variable
@@ -76,6 +87,7 @@ void Almacenamiento::setComentarios(std::string comentario, int numero_linea) {
  * @param almacen variable a ser escrita
 */
 std::ostream& operator<<(std::ostream& salida, Almacenamiento almacen) {
+  salida << "PROGRAM: " << almacen.nombre_fichero_ << std::endl;
   salida << "DESCRIPTION: \n";
   salida << almacen.comentarios_[0] << std::endl;;
   salida << "VARIABLES: \n";

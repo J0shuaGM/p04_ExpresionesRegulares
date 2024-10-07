@@ -32,6 +32,7 @@ class Almacenamiento {
     ~Almacenamiento() {}
 
     //Metodos
+    void setNombre(std::string);
     void setVariables(std::string, int);
     void setBucles(std::string, int);
     void setMain(bool);
@@ -41,6 +42,7 @@ class Almacenamiento {
     friend std::ostream& operator<<(std::ostream& salida, const Almacenamiento almacen);
 
   private:
+    std::string nombre_fichero_;
     std::vector<std::string> variables_;
     std::vector<int> linea_variables_;
     std::vector<std::string> bucles_;

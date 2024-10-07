@@ -56,6 +56,8 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
   std::smatch coincidencias;
   Almacenamiento almacen;
 
+  almacen.setNombre(fichero_entrada);
+
   while(std::getline(input, linea)) {
     ++contador;
 
