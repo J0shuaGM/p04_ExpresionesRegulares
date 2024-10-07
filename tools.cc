@@ -20,6 +20,13 @@
 
 #include "tools.h"
 
+
+
+/**
+ * @brief Funcion que explica como usar este programa 
+ * @param argc Numero de argumentos pasados por linea de comandos
+ * @param agrv Las cadenas que han sido pasadas por linea de comandos
+*/
 void Usage(int argc, char *argv[]) {
   switch (argc)
   {

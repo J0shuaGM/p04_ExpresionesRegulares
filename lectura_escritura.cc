@@ -23,6 +23,13 @@
 #include "lectura_escritura.h"
 #include "almacenamiento.h"
 
+
+
+/**
+ * @brief Función que lee y clasifica la informacion contenida en un fichero
+ * @param fichero_entrada Cadena que contiene el nombre del fichero que sera analizado
+ * @param fichero_salida Cadena que contiene el nombre del fichero de salida
+*/
 void lectura(std::string fichero_entrada, std::string fichero_salida) {
 
   std::ifstream input(fichero_entrada);
@@ -41,10 +48,10 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
   std::regex inicio_comentario("/\\*");  // Detectar el inicio de comentario
   std::regex fin_comentario("\\*/");     // Detectar el fin del comentario
   std::regex comentario_simple("//.+"); // Detectar comentarios de una linea
-  std::regex variables("\\s+int|double\\s+[a-z0-9]+\\s*;"); 
-  std::regex buclesfor("\\bfor\\s*\\(.*\\)"); 
-  std::regex bucleswhile("\\bwhile\\s*\\(.*\\)");
-  std::regex main("int main");
+  std::regex variables("\\s+int|double\\s+[a-z0-9]+\\s*;"); // Detectar las diferentes variables
+  std::regex buclesfor("\\bfor\\s*\\(.*\\)"); // Detectar los bucles for
+  std::regex bucleswhile("\\bwhile\\s*\\(.*\\)"); // Detectar los bucles while
+  std::regex main("int main"); //Detectar si existe una función mainxº
 
   std::smatch coincidencias;
   Almacenamiento almacen;
@@ -82,6 +89,13 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
   escritura(fichero_salida, almacen);
 }
 
+
+
+/**
+ * @brief Funcion que escribe en el fichero de salida
+ * @param fichero_salida Cadena que contiene el nombre del fichero donde se va a escribir
+ * @param almacen Variabel que contiene toda la información a ser escrita
+*/
 void escritura(std::string ficher_salida, Almacenamiento almacen) {
   std::ofstream out(ficher_salida); 
   if (!out.is_open()) {
