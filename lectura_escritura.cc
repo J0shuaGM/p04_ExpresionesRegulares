@@ -23,13 +23,12 @@
 
 
 
-
 /**
  * @brief Función que lee y clasifica la informacion contenida en un fichero
  * @param fichero_entrada Cadena que contiene el nombre del fichero que sera analizado
  * @param fichero_salida Cadena que contiene el nombre del fichero de salida
 */
-void lectura(std::string fichero_entrada, std::string fichero_salida) {
+Almacenamiento lectura(std::string fichero_entrada, std::string fichero_salida) {
 
   std::ifstream input(fichero_entrada);
 
@@ -96,7 +95,7 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
   almacen.setVariables(variable); 
   almacen.setBulces(bucles); 
   almacen.setComentarios(comentario);
-  escritura(fichero_salida, almacen);
+  return almacen;
 }
 
 

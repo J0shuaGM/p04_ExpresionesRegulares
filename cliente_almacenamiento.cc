@@ -23,6 +23,7 @@ int main(int argc, char * argv[]) {
   Usage(argc, argv);
   std::string fichero_entrada = argv[1];
   std::string fichero_salida = argv[2];
-  lectura(fichero_entrada, fichero_salida);
+  Almacenamiento almacen = lectura(fichero_entrada, fichero_salida);
+  escritura(fichero_salida, almacen);
   return 0;
 }

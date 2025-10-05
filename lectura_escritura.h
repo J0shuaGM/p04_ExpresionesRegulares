@@ -17,6 +17,9 @@
 #include <vector>
 
 #include "almacenamiento.h"
+#include "bucle.h"
+#include "variables.h"
+#include "comentarios.h"
 
-void lectura(std::string, std::string);
+Almacenamiento lectura(std::string, std::string);
 void escritura(std::string, Almacenamiento);
