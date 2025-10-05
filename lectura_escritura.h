@@ -6,14 +6,9 @@
 // Practica 4: Expreciones regulares
 // Autor: Joshua Gomez Marrero
 // Correo: alu0101477398@ull.edu.es
-// Fecha: 17/09/2024
+// Fecha: 5/10/2025
 // Archivo lectura.h: definicion de las funciones para leer el fichero 
 // Contiene la definicion de las funciones para leer y escribir
-// para ... (indicar brevemente el objetivo)
-// Referencias:
-// Enlaces de interes
-// Historial de revisiones
-// 17/09/2024 - Creacion (primera version) del codigo 
 
 #include <iostream>
 #include <fstream>

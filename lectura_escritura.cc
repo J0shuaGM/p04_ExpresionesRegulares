@@ -6,14 +6,9 @@
 // Practica 4: Expreciones regulares
 // Autor: Joshua Gomez Marrero
 // Correo: alu0101477398@ull.edu.es
-// Fecha: 17/09/2024
+// Fecha: 5/10/2025
 // Archivo lectura.cc: declaracion de las funciones 
 // Contiene la declaracion de las funciones usadas para leer y escribir en los ficheros de texto
-// para ... (indicar brevemente el objetivo)
-// Referencias:
-// Enlaces de interes
-// Historial de revisiones
-// 17/09/2024 - Creacion (primera version) del codigo 
 
 #include <iostream>
 #include <string> 
@@ -22,6 +17,10 @@
 
 #include "lectura_escritura.h"
 #include "almacenamiento.h"
+#include "comentarios.h"
+#include "bucle.h"
+#include "variables.h"
+
 
 
 
@@ -48,13 +47,16 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
   std::regex inicio_comentario("/\\*");  // Detectar el inicio de comentario
   std::regex fin_comentario("\\*/");     // Detectar el fin del comentario
   std::regex comentario_simple("//.+"); // Detectar comentarios de una linea
-  std::regex variables("\\s+int|double\\s+[a-z0-9]+\\s*;"); // Detectar las diferentes variables
+  std::regex variables("\\s+int|double\\s+[a-zA-Z0-9]+\\s*;"); // Detectar las diferentes variables
   std::regex buclesfor("\\bfor\\s*\\(.*\\)"); // Detectar los bucles for
   std::regex bucleswhile("\\bwhile\\s*\\(.*\\)"); // Detectar los bucles while
   std::regex main("int main"); //Detectar si existe una función mainxº
 
   std::smatch coincidencias;
   Almacenamiento almacen;
+  Comentario comentario; 
+  Variables variable;
+  Bucle bucles;
 
   almacen.setNombre(fichero_entrada);
 
@@ -66,28 +68,34 @@ void lectura(std::string fichero_entrada, std::string fichero_salida) {
       comentarios_encontrados += linea + "\n";
       if(std::regex_search(linea, fin_comentario)) {
         dentro_de_comentario = false; 
-        almacen.setComentarios(comentarios_encontrados, contador);
+        comentario.setComentarios(comentarios_encontrados, contador);
       }
+      continue; // Saltar el resto de análisis si estamos dentro de comentario
     }
-    else {
-      //Busqueda de comentarios simples
-      if(std::regex_search(linea, comentario_simple)) {
-        almacen.setComentarios(linea, contador);
-      }
+    //Busqueda de comentarios simples
+    if(std::regex_search(linea, comentario_simple)) {
+      comentario.setComentarios(linea, contador);
+      continue;
     }
     if (std::regex_search(linea, inicio_comentario)) {
       dentro_de_comentario = true;
       comentarios_encontrados = linea + "\n";
-    } else if (std::regex_search(linea, variables)) { //Busqueda de variables 
-      almacen.setVariables(linea, contador);
+      continue;
+    }
+    if (std::regex_search(linea, variables)) { //Busqueda de variables 
+      variable.setVariables(linea, contador);
     } else if (std::regex_search(linea, coincidencias, buclesfor)) {  //Busqueda de bucles for
-      almacen.setBucles("for", contador);
+      bucles.setBucles("for", contador);
     } else if (std::regex_search(linea, coincidencias, bucleswhile)) { //Busqueda de bucles while
-      almacen.setBucles("while", contador);
+      bucles.setBucles("while", contador);
     } else if (std::regex_search(linea, coincidencias, main)) { //Busqueda de funcion main
       almacen.setMain(true);
     } 
   }
+  // Guardar los objetos en almacen
+  almacen.setVariables(variable); 
+  almacen.setBulces(bucles); 
+  almacen.setComentarios(comentario);
   escritura(fichero_salida, almacen);
 }
 

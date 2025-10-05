@@ -6,14 +6,9 @@
 // Practica 4: Expreciones regulares
 // Autor: Joshua Gomez Marrero
 // Correo: alu0101477398@ull.edu.es
-// Fecha: 17/09/2024
+// Fecha: 5/10/2025
 // Archivo almacenamiento.cc: declaracion de la clase almacenamiento
 // Contiene la declaracion de la clase almacenamiento
-// para ... (indicar brevemente el objetivo)
-// Referencias:
-// Enlaces de interes
-// Historial de revisiones
-// 17/09/2024 - Creacion (primera version) del codigo 
 
 #include <iostream>
 #include <string>
@@ -22,7 +17,9 @@
 #include <algorithm>
 
 #include "almacenamiento.h"
-
+#include "comentarios.h"
+#include "bucle.h"
+#include "variables.h"
 
 
 /**
@@ -31,30 +28,6 @@
 */
 void Almacenamiento::setNombre(std::string nombre_fichero) {
   nombre_fichero_ = nombre_fichero;
-}
-
-
-
-/**
- * @brief Metoodo que almacena las diferentes variables del fichero
- * @param variables Cadena que recibe la variable
- * @param numero_linea Entero que contiene el numero de linea donde se encuentra la variable
-*/
-void Almacenamiento::setVariables(std::string variables, int numero_linea) {
-  variables_.push_back(variables);
-  linea_variables_.push_back(numero_linea);
-}
-
-
-
-/**
- * @brief Metodo que almacena los bucles encontrados en el fichero
- * @param bucle Cadena que contiene el tipo de bucle
- * @param numero_linea Eneto que contiene el numero de linea en la que se encuentra el bucle
-*/
-void Almacenamiento::setBucles(std::string bucle, int numero_linea) {
-  bucles_.push_back(bucle);
-  linea_bucles_.push_back(numero_linea);
 }
 
 
@@ -70,30 +43,24 @@ void Almacenamiento::setMain(bool main) {
 
 
 /**
- * @brief Metodo que almacena los comentarios encontrados en un fichero
- * @param comentario Cadena que contiene los comnetarios encontrados en el fichero
- * @param numero_liena Entero que contiene el numero de linea en la que se encuentra el comentario
-*/
-void Almacenamiento::setComentarios(std::string comentario, int numero_linea) {
-  comentarios_.push_back(comentario); 
-  linea_comentarios_.push_back(numero_linea);
-}
-
-
-
-/**
  * @brief Sobrecarga del operador de insercion
  * @param salida variable que contiene la salida de la escritura
  * @param almacen variable a ser escrita
 */
 std::ostream& operator<<(std::ostream& salida, Almacenamiento almacen) {
+  Comentario comentarios = almacen.getComentarios();
+  Variables variables = almacen.getVariables();
+  Bucle bucles = almacen.getBucle();
+
   salida << "PROGRAM: " << almacen.nombre_fichero_ << std::endl;
   salida << "DESCRIPTION: \n";
-  salida << almacen.comentarios_[0] << std::endl;;
+  if (!comentarios.getComentarios().empty()) {
+    salida << comentarios.getComentarios()[0] << std::endl;
+  }
   salida << "VARIABLES: \n";
-  for(auto i = 0; i < almacen.variables_.size(); ++i) {
-    salida << "[Line " << almacen.linea_variables_[i] << "] ";
-    std::istringstream stream(almacen.variables_[i]);
+  for(auto i = 0; i < variables.getVariables().size(); ++i) {
+    salida << "[Line " << variables.getLineaVariables()[i] << "] ";
+    std::istringstream stream(variables.getVariables()[i]);
     std::string tipo, nombre, declaracion;
     stream >> tipo >> nombre; 
     std::getline(stream, declaracion);
@@ -103,8 +70,8 @@ std::ostream& operator<<(std::ostream& salida, Almacenamiento almacen) {
   }
   salida << std::endl;
   salida << "STATEMENTS: \n";
-  for(auto i = 0; i < almacen.bucles_.size(); ++i) {
-    salida << "[Line " << almacen.linea_bucles_[i] << "] LOOP: " << almacen.bucles_[i] << "\n";
+  for(auto i = 0; i < bucles.getNombreBucles().size(); ++i) {
+    salida << "[Line " << bucles.getLineaBucles()[i] << "] LOOP: " << bucles.getNombreBucles()[i] << "\n";
   }
   salida << std::endl;
   salida << "MAIN: \n";
@@ -115,11 +82,14 @@ std::ostream& operator<<(std::ostream& salida, Almacenamiento almacen) {
   }
   salida << std::endl;
   salida << "COMMENTS: \n";
-  for(auto i = 0; i < almacen.linea_comentarios_.size(); ++i) {
+  for(auto i = 0; i < comentarios.getLineaComentarios().size(); ++i) {
     if (i == 0) {
-      salida << "[Line 1-" << almacen.linea_comentarios_[i] << "] DESCRIPTION \n";
+      salida << "[Line 1-" << comentarios.getLineaComentarios()[i] << "] DESCRIPTION \n";
     } else {
-      salida << "[Line " << almacen.linea_comentarios_[i] << "] " << almacen.comentarios_[i] << "\n"; 
+      // Imprimir el texto del comentario en vez del número de línea dos veces
+      if (i < comentarios.getComentarios().size()) {
+        salida << "[Line " << comentarios.getLineaComentarios()[i] << "] " << comentarios.getComentarios()[i] << "\n";
+      }
     }
   }
   return salida;

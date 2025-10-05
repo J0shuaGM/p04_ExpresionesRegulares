@@ -6,14 +6,9 @@
 // Practica 2: Expreciones regulares
 // Autor: Joshua Gomez Marrero
 // Correo: alu0101477398@ull.edu.es
-// Fecha: 17/09/2024
+// Fecha: 5/10/2025
 // Archivo tools.h: declaracion de funciones
 // Contiene la declaración de las funciones de tools
-// para ... (indicar brevemente el objetivo)
-// Referencias:
-// Enlaces de interes
-// Historial de revisiones
-// 17/09/2024 - Creacion (primera version) del codigo 
 
 #include <iostream>
 

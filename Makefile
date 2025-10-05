@@ -13,10 +13,10 @@
 TARGET = Expresiones
 
 # Lista de archivos fuente(.cc)
-SOURCES = almacenamiento.cc cliente_almacenamiento.cc tools.cc lectura_escritura.cc
+SOURCES = almacenamiento.cc cliente_almacenamiento.cc tools.cc lectura_escritura.cc variables.cc bucle.cc comentarios.cc
 
 # Dependencias de los archivos fuente 
-DEPENDENCIES = tools.h almacenamiento.h lectura_escritura.h
+DEPENDENCIES = tools.h almacenamiento.h lectura_escritura.h variables.h bucle.h comentarios.h
 
 # Opciones de compilación
 CXX = g++
